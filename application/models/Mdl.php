@@ -246,9 +246,11 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listPORunning(){
+    public function listPORunning($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT a.*,b.*,c.* FROM potempahan a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spk d ON a.nomorPO=d.nomorPO WHERE d.statusSPK!='Done' ORDER BY a.nomorPO DESC");
+        $sql = "SELECT a.*,b.*,c.* FROM potempahan a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spk d ON a.nomorPO=d.nomorPO WHERE d.statusSPK!='Done' and YEAR(a.tanggalMasuk)=$tahun and MONTH(a.tanggalMasuk)='$bulan' ORDER BY a.nomorPO DESC";
+        
+        $hasil = $this->db->query($sql);
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{

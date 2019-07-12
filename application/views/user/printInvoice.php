@@ -214,7 +214,7 @@
                     <h3>FORM ORDER TEMPAHAN</h3>
                 </div>
                 <div class="toolbox col-lg-8 text-right">
-                    <a style="color: #42B549; font-size: 14px; text-decoration: none;" href="javascript:window.location='<?php echo base_url()?>user/purchaseOrder'">
+                    <a style="color: #42B549; font-size: 14px; text-decoration: none;" href="<?php echo base_url()?>user/purchaseOrder">
                         <span style="vertical-align: middle"> < Kembali </span>
                     </a>&nbsp
                     <a style="color: #42B549; font-size: 14px; text-decoration: none;" href="javascript:window.print()">
