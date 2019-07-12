@@ -104,6 +104,7 @@
                                 <?php echo form_open_multipart('user/purchaseOrder')?>
                                 <label>Bulan</label>
                                 <select class="form-group fom" name="bulanpilih">
+                                    <option value="01,02,03,04,05,06,07,08,09,10,11,12">SEMUA</option>
                                     <option value="01" <?php if($bulanpilih=="01") echo " selected";?>>Januari</option>
                                     <option value="02" <?php if($bulanpilih=="02") echo " selected"?>>Februari</option>
                                     <option value="03" <?php if($bulanpilih=="03") echo " selected"?>>Maret</option>

@@ -100,6 +100,36 @@
                         </div>
 
                         <div class="ibox-content">
+                            <div class="ibox-tools">
+                                <?php echo form_open_multipart('user/purchaseOrderDone')?>
+                                <label>Bulan</label>
+                                <select class="form-group fom" name="bulanpilih">
+                                    <option value="01,02,03,04,05,06,07,08,09,10,11,12">SEMUA</option>
+                                    <option value="01" <?php if($bulanpilih=="01") echo " selected";?>>Januari</option>
+                                    <option value="02" <?php if($bulanpilih=="02") echo " selected"?>>Februari</option>
+                                    <option value="03" <?php if($bulanpilih=="03") echo " selected"?>>Maret</option>
+                                    <option value="04" <?php if($bulanpilih=="04") echo " selected"?>>April</option>
+                                    <option value="05" <?php if($bulanpilih=="05") echo " selected"?>>Mei</option>
+                                    <option value="06" <?php if($bulanpilih=="06") echo " selected"?>>Juni</option>
+                                    <option value="07" <?php if($bulanpilih=="07") echo " selected"?>>Juli</option>
+                                    <option value="08" <?php if($bulanpilih=="08") echo " selected"?>>Agustus</option>
+                                    <option value="09" <?php if($bulanpilih=="09") echo " selected"?>>September</option>
+                                    <option value="10" <?php if($bulanpilih=="10") echo " selected"?>>Oktober</option>
+                                    <option value="11" <?php if($bulanpilih=="11") echo " selected"?>>Nopember</option>
+                                    <option value="12" <?php if($bulanpilih=="12") echo " selected"?>>Desember</option>
+                                </select>
+                                <label>Tahun</label>
+                                <select class="form-group" name="tahunpilih">
+                                    <option value="2018" <?php if($tahunpilih=="2018") echo " selected";?>>2018</option>
+                                    <option value="2019" <?php if($tahunpilih=="2019") echo " selected";?>>2019</option>
+                                    <option value="2020" <?php if($tahunpilih=="2020") echo " selected";?>>2020</option>
+                                    <option value="2021" <?php if($tahunpilih=="2021") echo " selected";?>>2021</option>
+                                    <option value="2022" <?php if($tahunpilih=="2022") echo " selected";?>>2022</option>
+                                    <option value="2023" <?php if($tahunpilih=="2023") echo " selected";?>>2023</option>
+                                </select>
+                                <button type='submit' class="btn btn-xs btn-success">Pilih</button>
+                                <?php echo form_close()?>  
+                            </div>
                             <input type="text" class="form-control input-sm m-b-xs" id="filter"
                                    placeholder="Search in table">
                             <div class="table-responsive">

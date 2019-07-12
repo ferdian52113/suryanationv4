@@ -8,3 +8,4 @@
     <link href="<?php echo base_url('assets/css/style.css') ?>" rel="stylesheet">
 
     <link href="<?php echo base_url('assets/css/plugins/toastr/toastr.min.css') ?>" rel="stylesheet">
+  

@@ -248,8 +248,7 @@ class mdl extends CI_Model {
 
     public function listPORunning($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $sql = "SELECT a.*,b.*,c.* FROM potempahan a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spk d ON a.nomorPO=d.nomorPO WHERE d.statusSPK!='Done' and YEAR(a.tanggalMasuk)=$tahun and MONTH(a.tanggalMasuk)='$bulan' ORDER BY a.nomorPO DESC";
-        
+        $sql = "SELECT a.tanggalMasuk,a.nomorPO,b.jenisProduk,b.namaProduk,c.namaCustomer FROM potempahan a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spk d ON a.nomorPO=d.nomorPO WHERE d.statusSPK!='Done' and YEAR(a.tanggalMasuk)=$tahun and MONTH(a.tanggalMasuk) IN ($bulan) ORDER BY a.nomorPO DESC";
         $hasil = $this->db->query($sql);
         if($hasil->num_rows() > 0){
             return $hasil->result();
@@ -258,9 +257,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listPODone(){
+    public function listPODone($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT a.*,b.*,c.* FROM potempahan a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spk d ON a.nomorPO=d.nomorPO WHERE d.statusSPK='Done' ORDER BY a.nomorPO DESC");
+        $hasil = $this->db->query("SELECT a.tanggalMasuk,a.nomorPO,b.jenisProduk,b.namaProduk,c.namaCustomer FROM potempahan a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spk d ON a.nomorPO=d.nomorPO WHERE d.statusSPK='Done' and YEAR(a.tanggalMasuk)=$tahun and MONTH(a.tanggalMasuk) IN ($bulan) ORDER BY a.nomorPO DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{
@@ -278,9 +277,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listPOMasalRunning(){
+    public function listPOMasalRunning($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT a.*,b.*,c.* FROM pomasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spkmasal d ON a.nomorPO=d.nomorPO WHERE d.statusSPK!='Done' ORDER BY a.nomorPO DESC");
+        $hasil = $this->db->query("SELECT a.tanggalMasuk,a.nomorPO,b.jenisProduk,b.namaProduk,c.namaCustomer FROM pomasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spkmasal d ON a.nomorPO=d.nomorPO WHERE d.statusSPK!='Done' and YEAR(a.tanggalMasuk)=$tahun and MONTH(a.tanggalMasuk) IN ($bulan) ORDER BY a.nomorPO DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{
@@ -288,9 +287,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listPOMasalDone(){
+    public function listPOMasalDone($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT a.*,b.*,c.* FROM pomasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spkmasal d ON a.nomorPO=d.nomorPO WHERE d.statusSPK='Done' ORDER BY a.nomorPO DESC");
+        $hasil = $this->db->query("SELECT a.tanggalMasuk,a.nomorPO,b.jenisProduk,b.namaProduk,c.namaCustomer FROM pomasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN spkmasal d ON a.nomorPO=d.nomorPO WHERE d.statusSPK='Done' and YEAR(a.tanggalMasuk)=$tahun and MONTH(a.tanggalMasuk) IN ($bulan) ORDER BY a.nomorPO DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{
@@ -358,9 +357,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listSPKRunning(){
+    public function listSPKRunning($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT * FROM spk a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN potempahan d ON a.nomorPO = d.nomorPO WHERE a.statusSPK!='Done' ORDER BY a.nomorFaktur DESC");
+        $hasil = $this->db->query("SELECT a.idSPK,a.nomorFaktur,a.nomorPO,a.statusDesain,a.statusBOM,a.statusJadwal,a.statusPersetujuan,a.statusSPK,a.statusPrint,a.keteranganDesain,a.keteranganPending,b.kodeGambar,b.namaProduk,c.namaCustomer,d.kadarBahan FROM spk a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN potempahan d ON a.nomorPO = d.nomorPO WHERE a.statusSPK!='Done' and YEAR(d.tanggalMasuk)=$tahun and MONTH(d.tanggalMasuk) IN ($bulan) ORDER BY a.nomorFaktur DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{
@@ -368,9 +367,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listSPKDone(){
+    public function listSPKDone($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT * FROM spk a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN potempahan d ON a.nomorPO = d.nomorPO WHERE a.statusSPK='Done' ORDER BY a.nomorFaktur DESC");
+        $hasil = $this->db->query("SELECT a.idSPK,a.nomorFaktur,a.nomorPO,a.statusDesain,a.statusBOM,a.statusJadwal,a.statusPersetujuan,a.statusSPK,a.statusPrint,a.keteranganDesain,a.keteranganPending,b.kodeGambar,b.namaProduk,c.namaCustomer,d.kadarBahan FROM spk a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN potempahan d ON a.nomorPO = d.nomorPO WHERE a.statusSPK='Done' and YEAR(d.tanggalMasuk)=$tahun and MONTH(d.tanggalMasuk) IN ($bulan) ORDER BY a.nomorFaktur DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{
@@ -388,9 +387,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listSPKMasalRunning(){
+    public function listSPKMasalRunning($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT * FROM spkmasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN pomasal d ON a.nomorPO = d.nomorPO WHERE a.statusSPK!='Done'ORDER BY a.nomorFaktur DESC");
+        $hasil = $this->db->query("SELECT  a.idSPK,a.nomorFaktur,a.nomorPO,a.statusBOM,a.statusJadwal,a.statusPersetujuan,a.statusSPK,b.kodeGambar,b.namaProduk,c.namaCustomer,d.kadarBahan FROM spkmasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN pomasal d ON a.nomorPO = d.nomorPO WHERE a.statusSPK!='Done' and YEAR(d.tanggalMasuk)=$tahun and MONTH(d.tanggalMasuk) IN ($bulan) ORDER BY a.nomorFaktur DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{
@@ -398,9 +397,9 @@ class mdl extends CI_Model {
         }
     }
 
-    public function listSPKMasalDone(){
+    public function listSPKMasalDone($tahun,$bulan){
         //Query mencari record berdasarkan ID
-        $hasil = $this->db->query("SELECT * FROM spkmasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN pomasal d ON a.nomorPO = d.nomorPO WHERE a.statusSPK='Done'ORDER BY a.nomorFaktur DESC");
+        $hasil = $this->db->query("SELECT  a.idSPK,a.nomorFaktur,a.nomorPO,a.statusBOM,a.statusJadwal,a.statusPersetujuan,a.statusSPK,b.kodeGambar,b.namaProduk,c.namaCustomer,d.kadarBahan FROM spkmasal a LEFT JOIN produk b ON a.idProduk = b.idProduk LEFT JOIN customer c ON a.idCustomer=c.idCustomer LEFT JOIN pomasal d ON a.nomorPO = d.nomorPO WHERE a.statusSPK='Done' and YEAR(d.tanggalMasuk)=$tahun and MONTH(d.tanggalMasuk) IN ($bulan) ORDER BY a.nomorFaktur DESC");
         if($hasil->num_rows() > 0){
             return $hasil->result();
         } else{

@@ -348,21 +348,46 @@ class User extends CI_Controller {
 
     public function purchaseOrderDone() {
         $tahunpilih = date("Y"); 
+        $bulanpilih = date("m"); 
         if ($this->input->post('tahunpilih')) {
             $tahunpilih = $this->input->post('tahunpilih');
         } 
+        if ($this->input->post('bulanpilih')) {
+            $bulanpilih = $this->input->post('bulanpilih');
+        } 
         $data['tahunpilih'] = $tahunpilih;
-        $data['listPO'] = $this->mdl->listPODone();
+        $data['bulanpilih'] = $bulanpilih;
+        $data['listPO'] = $this->mdl->listPODone($tahunpilih,$bulanpilih);
         $this->load->view('user/poTempahanDone',$data);
     }
 
     public function listPOMasal() {
-        $data['listPO'] = $this->mdl->listPOMasalRunning();
+        $tahunpilih = date("Y"); 
+        $bulanpilih = date("m"); 
+        if ($this->input->post('tahunpilih')) {
+            $tahunpilih = $this->input->post('tahunpilih');
+        } 
+        if ($this->input->post('bulanpilih')) {
+            $bulanpilih = $this->input->post('bulanpilih');
+        } 
+        $data['tahunpilih'] = $tahunpilih;
+        $data['bulanpilih'] = $bulanpilih;
+        $data['listPO'] = $this->mdl->listPOMasalRunning($tahunpilih,$bulanpilih);
         $this->load->view('user/poMasal',$data);
     }
 
     public function listPOMasalDone() {
-        $data['listPO'] = $this->mdl->listPOMasalDone();
+        $tahunpilih = date("Y"); 
+        $bulanpilih = date("m"); 
+        if ($this->input->post('tahunpilih')) {
+            $tahunpilih = $this->input->post('tahunpilih');
+        } 
+        if ($this->input->post('bulanpilih')) {
+            $bulanpilih = $this->input->post('bulanpilih');
+        } 
+        $data['tahunpilih'] = $tahunpilih;
+        $data['bulanpilih'] = $bulanpilih;
+        $data['listPO'] = $this->mdl->listPOMasalDone($tahunpilih,$bulanpilih);
         $this->load->view('user/poMasalDone',$data);
     }
 
@@ -627,15 +652,15 @@ class User extends CI_Controller {
         if($_FILES['userfile']['name'] != NULL){
             //form sumbit dengan gambar diisi
             //load uploading file library
-           $config['upload_path']     = './uploads/gambarProduk/'; 
-           $config['allowed_types']   = 'jpg|jpeg|png'; 
-           $config['max_size']        = '8048';
-           $config['file_name']       = $kode."-cust.jpg";
-           $config['overwrite']        = TRUE;
+         $config['upload_path']     = './uploads/gambarProduk/'; 
+         $config['allowed_types']   = 'jpg|jpeg|png'; 
+         $config['max_size']        = '8048';
+         $config['file_name']       = $kode."-cust.jpg";
+         $config['overwrite']        = TRUE;
 
-           $this->load->library('upload', $config);
-           $this->upload->initialize($config);
-           if ( !$this->upload->do_upload()){
+         $this->load->library('upload', $config);
+         $this->upload->initialize($config);
+         if ( !$this->upload->do_upload()){
             $data['error'] = array(
                 'error' => $this->upload->display_errors()
             );
@@ -957,7 +982,18 @@ public function updatePOMassal($idPO){
 }
 
 public function spk() {
-    $data['listSPK'] = $this->mdl->listSPKRunning();
+    $tahunpilih = date("Y"); 
+    $bulanpilih = date("m"); 
+    if ($this->input->post('tahunpilih')) {
+        $tahunpilih = $this->input->post('tahunpilih');
+    } 
+    if ($this->input->post('bulanpilih')) {
+        $bulanpilih = $this->input->post('bulanpilih');
+    } 
+    $data['tahunpilih'] = $tahunpilih;
+    $data['bulanpilih'] = $bulanpilih;
+
+    $data['listSPK'] = $this->mdl->listSPKRunning($tahunpilih,$bulanpilih);
     $data['cekbom'] = $this->mdl->cekbom();
     $data['cekjadwal'] = $this->mdl->cekjadwal();
     $data['klot'] = $this->mdl->getKloterSPK();
@@ -968,7 +1004,18 @@ public function spk() {
 }
 
 public function spkDone() {
-    $data['listSPK'] = $this->mdl->listSPKDone();
+    $tahunpilih = date("Y"); 
+    $bulanpilih = date("m"); 
+    if ($this->input->post('tahunpilih')) {
+        $tahunpilih = $this->input->post('tahunpilih');
+    } 
+    if ($this->input->post('bulanpilih')) {
+        $bulanpilih = $this->input->post('bulanpilih');
+    } 
+    $data['tahunpilih'] = $tahunpilih;
+    $data['bulanpilih'] = $bulanpilih;
+
+    $data['listSPK'] = $this->mdl->listSPKDone($tahunpilih,$bulanpilih);
     $data['cekbom'] = $this->mdl->cekbom();
     $data['cekjadwal'] = $this->mdl->cekjadwal();
     $data['klot'] = $this->mdl->getKloterSPK();
@@ -1404,13 +1451,13 @@ public function createPegawai() {
         $this->upload->initialize($config);
 
         if (!$this->upload->do_upload()) {
-           $data['error'] = array(
+         $data['error'] = array(
             'error' => $this->upload->display_errors()
         );
-           $message       = "Perubahan gagal dilakukan, gambar tidak mendukung";
-           echo "<script type='text/javascript'>alert('$message');</script>";
-           redirect('user/pegawai');
-       } else {
+         $message       = "Perubahan gagal dilakukan, gambar tidak mendukung";
+         echo "<script type='text/javascript'>alert('$message');</script>";
+         redirect('user/pegawai');
+     } else {
         $upload_data = $this->upload->data();
         $file_name   = $upload_data['file_name'];
 
@@ -1460,13 +1507,13 @@ public function editPegawai($idUser) {
         $this->upload->initialize($config);
 
         if (!$this->upload->do_upload()) {
-           $data['error'] = array(
+         $data['error'] = array(
             'error' => $this->upload->display_errors()
         );
-           $message       = "Perubahan gagal dilakukan, gambar tidak mendukung";
-           echo "<script type='text/javascript'>alert('$message');</script>";
-           redirect('user/pegawai');
-       } else {
+         $message       = "Perubahan gagal dilakukan, gambar tidak mendukung";
+         echo "<script type='text/javascript'>alert('$message');</script>";
+         redirect('user/pegawai');
+     } else {
         $upload_data = $this->upload->data();
         $file_name   = $upload_data['file_name'];
 
@@ -3830,9 +3877,9 @@ public function editInventory($id) {
 
         if ($idAktivitas == 1006) {
 
-           $isi = $this->mdl->getBOMTempahan($idKloter);
+         $isi = $this->mdl->getBOMTempahan($idKloter);
 
-           for ($i=0; $i < count($isi) ; $i++) { 
+         for ($i=0; $i < count($isi) ; $i++) { 
 
             $userx = $this->mdl->getUserByJabatan('Admin Produksi');
             $idg = $userx[0]->idUser;
@@ -4097,15 +4144,15 @@ public function tambahPOPerak(){
                 //form sumbit dengan gambar diisi
                 //load uploading file library
 
-           $config['upload_path']     = './uploads/gambarProduk/'; 
-           $config['allowed_types']   = 'jpg|png|jpeg|gif'; 
-           $config['max_size']        = '8048';
-           $config['file_name']       = $kode."-cust.jpg";
-           $config['overwrite']        = TRUE;
+         $config['upload_path']     = './uploads/gambarProduk/'; 
+         $config['allowed_types']   = 'jpg|png|jpeg|gif'; 
+         $config['max_size']        = '8048';
+         $config['file_name']       = $kode."-cust.jpg";
+         $config['overwrite']        = TRUE;
 
-           $this->load->library('upload', $config);
-           $this->upload->initialize($config);
-           if ( !$this->upload->do_upload()){
+         $this->load->library('upload', $config);
+         $this->upload->initialize($config);
+         if ( !$this->upload->do_upload()){
             $data['error'] = array(
                 'error' => $this->upload->display_errors()
             );
@@ -4752,15 +4799,15 @@ public function invoiceAkhirPOPerseorangan($nomorPO) {
         if($_FILES['userfile']['name'] != NULL){
             //form sumbit dengan gambar diisi
             //load uploading file library
-           $config['upload_path']     = './uploads/gambarProduk/'; 
-           $config['allowed_types']   = 'jpg|jpeg|png'; 
-           $config['max_size']        = '8048';
-           $config['file_name']       = $kode."-cust.jpg";
-           $config['overwrite']        = TRUE;
+         $config['upload_path']     = './uploads/gambarProduk/'; 
+         $config['allowed_types']   = 'jpg|jpeg|png'; 
+         $config['max_size']        = '8048';
+         $config['file_name']       = $kode."-cust.jpg";
+         $config['overwrite']        = TRUE;
 
-           $this->load->library('upload', $config);
-           $this->upload->initialize($config);
-           if ( !$this->upload->do_upload()){
+         $this->load->library('upload', $config);
+         $this->upload->initialize($config);
+         if ( !$this->upload->do_upload()){
             $cek = 0;
             $data['error'] = array(
                 'error' => $this->upload->display_errors()
@@ -5415,67 +5462,67 @@ public function invoiceTempahan(){
 
                     } else {
 
-                     $data['s'] = $this->mdl->getSales();
-                     $data['j'] = $this->mdl->getPenjadwalan();
-                     $data['d'] = $this->mdl->getDesain();
-                     $data['m'] = $this->mdl->getMenunggu();
-                     $data['p'] = $this->mdl->getPrint();
+                       $data['s'] = $this->mdl->getSales();
+                       $data['j'] = $this->mdl->getPenjadwalan();
+                       $data['d'] = $this->mdl->getDesain();
+                       $data['m'] = $this->mdl->getMenunggu();
+                       $data['p'] = $this->mdl->getPrint();
 
-                     $data['klt'] = $this->mdl->getListKloter2();
+                       $data['klt'] = $this->mdl->getListKloter2();
             // print_r($data['klt']); exit();
 
 
-                     $data['li'] = $this->mdl->getLilin(1003);
+                       $data['li'] = $this->mdl->getLilin(1003);
 
 
-                     $data['qw'] = $this->mdl->getKloter2();
-                     $data['g'] = $this->mdl->getGroup();
+                       $data['qw'] = $this->mdl->getKloter2();
+                       $data['g'] = $this->mdl->getGroup();
             //$data['g2'] = $this->mdl->getGroup2();
 
-                     $data['k1'] = $this->mdl->getKloter(1003);
+                       $data['k1'] = $this->mdl->getKloter(1003);
 
-                     $data['k2'] = $this->mdl->getKloter(1005);
-                     $data['k3'] = $this->mdl->getKloter(1006);
+                       $data['k2'] = $this->mdl->getKloter(1005);
+                       $data['k3'] = $this->mdl->getKloter(1006);
             //$data['pp'] = $this->mdl->getPPIC();
 
-                     $data['staf'] = $this->mdl->getStaf();
-                     $data['akt'] = $this->mdl->getAktivitasLanjut();
+                       $data['staf'] = $this->mdl->getStaf();
+                       $data['akt'] = $this->mdl->getAktivitasLanjut();
 
-                     $data['r'] = $this->mdl->getRecord();
-                     $data['b'] = $this->mdl->getBerat();
-                     $data['cb'] = $this->mdl->cekbom2();
-                     $data['klot']      = $this->mdl->getKloterSPK10();
+                       $data['r'] = $this->mdl->getRecord();
+                       $data['b'] = $this->mdl->getBerat();
+                       $data['cb'] = $this->mdl->cekbom2();
+                       $data['klot']      = $this->mdl->getKloterSPK10();
             //$data['k'] = $this->mdl->getIsiKloter();
 
 
-                     $data['gi'] = $this->mdl->getProses(1005);
-                     $data['co'] = $this->mdl->getProses(1006);
+                       $data['gi'] = $this->mdl->getProses(1005);
+                       $data['co'] = $this->mdl->getProses(1006);
 
             //$data['gp'] = $this->mdl->getProses(1007);  
-                     $data['go'] = $this->mdl->getProses(1007);  
-                     $data['bo'] = $this->mdl->getProses(1008);  
+                       $data['go'] = $this->mdl->getProses(1007);  
+                       $data['bo'] = $this->mdl->getProses(1008);  
 
-                     $data['cz'] = $this->mdl->getProses(1009);  
-                     $data['po'] = $this->mdl->getProses(1010);  
-                     $data['sl'] = $this->mdl->getProses(1011);
+                       $data['cz'] = $this->mdl->getProses(1009);  
+                       $data['po'] = $this->mdl->getProses(1010);  
+                       $data['sl'] = $this->mdl->getProses(1011);
 
-                     $data['kr'] = $this->mdl->getProses(1012);
-                     $data['bt'] = $this->mdl->getProses(1013);
-                     $data['do'] = $this->mdl->getProses(1014);
+                       $data['kr'] = $this->mdl->getProses(1012);
+                       $data['bt'] = $this->mdl->getProses(1013);
+                       $data['do'] = $this->mdl->getProses(1014);
 
-                     $data['jd'] = $this->mdl->getJadi();  
+                       $data['jd'] = $this->mdl->getJadi();  
 
-                     $this->load->view('user/display_tempahan',$data);
+                       $this->load->view('user/display_tempahan',$data);
 
-                 }
-
-
+                   }
 
 
-             }
 
-             public function kanbanMassal()
-             {
+
+               }
+
+               public function kanbanMassal()
+               {
 
         // if (isset($this->session->userdata['logged_in'])) {
 
@@ -7418,7 +7465,18 @@ public function invoiceTempahan(){
 
     public function listSPKMasal()
     {
-        $data['listSPK']   = $this->mdl->listSPKMasalRunning();
+        $tahunpilih = date("Y"); 
+        $bulanpilih = date("m"); 
+        if ($this->input->post('tahunpilih')) {
+            $tahunpilih = $this->input->post('tahunpilih');
+        } 
+        if ($this->input->post('bulanpilih')) {
+            $bulanpilih = $this->input->post('bulanpilih');
+        } 
+        $data['tahunpilih'] = $tahunpilih;
+        $data['bulanpilih'] = $bulanpilih;
+
+        $data['listSPK']   = $this->mdl->listSPKMasalRunning($tahunpilih,$bulanpilih);
         //$data['cekbom'] = $this->mdl->cekbom();
         $data['cekjadwal'] = $this->mdl->cekjadwal2();
         $data['klot']      = $this->mdl->getKloterSPK();
@@ -7429,7 +7487,18 @@ public function invoiceTempahan(){
 
     public function listSPKMasalDone()
     {
-        $data['listSPK']   = $this->mdl->listSPKMasalDone();
+        $tahunpilih = date("Y"); 
+        $bulanpilih = date("m"); 
+        if ($this->input->post('tahunpilih')) {
+            $tahunpilih = $this->input->post('tahunpilih');
+        } 
+        if ($this->input->post('bulanpilih')) {
+            $bulanpilih = $this->input->post('bulanpilih');
+        } 
+        $data['tahunpilih'] = $tahunpilih;
+        $data['bulanpilih'] = $bulanpilih;
+
+        $data['listSPK']   = $this->mdl->listSPKMasalDone($tahunpilih,$bulanpilih);
         //$data['cekbom'] = $this->mdl->cekbom();
         $data['cekjadwal'] = $this->mdl->cekjadwal2();
         $data['klot']      = $this->mdl->getKloterSPK();
